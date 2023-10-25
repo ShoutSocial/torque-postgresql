@@ -212,7 +212,9 @@ module Torque
 
         # Use this method to also load any irregular model name. This is smart
         # enought to only load the sources present on this instance
-        def prepare_data_sources
+        def prepare_data_sources(connection)
+          # connection is a ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
+          # Caller: /.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/activerecord-7.1.1/lib/active_record/connection_adapters/schema_cache.rb:318
           super
           @data_sources_model_names = Torque::PostgreSQL.config
             .irregular_models.slice(*@data_sources.keys).map do |table_name, model_name|
