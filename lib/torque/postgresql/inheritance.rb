@@ -57,9 +57,12 @@ module Torque
         def physically_inherited?
           return @physically_inherited if defined?(@physically_inherited)
 
-          @physically_inherited = connection.schema_cache.dependencies(
-            defined?(@table_name) ? @table_name : decorated_table_name,
-          ).present?
+          # Fails on Rails 7.1.1 with
+          # undefined method `dependencies' for #<ActiveRecord::ConnectionAdapters::BoundSchemaReflection
+          # @physically_inherited = connection.schema_cache.dependencies(
+          #   defined?(@table_name) ? @table_name : decorated_table_name,
+          # ).present?
+          false
         rescue ActiveRecord::ConnectionNotEstablished
           false
         end
